@@ -1,0 +1,9 @@
+[package]
+
+name = "jwt"
+version = "0.0.1"
+authors = ["David Stygstra <david.stygstra@gmail.com>"]
+
+[dependencies.openssl]
+
+git = "https://github.com/sfackler/rust-openssl"
