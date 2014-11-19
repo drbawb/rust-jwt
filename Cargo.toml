@@ -7,3 +7,7 @@ authors = ["David Stygstra <david.stygstra@gmail.com>"]
 [dependencies.openssl]
 
 git = "https://github.com/sfackler/rust-openssl"
+
+[dependencies.time]
+
+git = "https://github.com/rust-lang/time"
