@@ -32,18 +32,18 @@ pub enum DecodeError {
 impl Error for DecodeError {
     fn description(&self) -> &str {
         match *self {
-            Malformed => "not in JWS Compact Serialization format",
-            InvalidSignature => "signature validation failed",
+            DecodeError::Malformed => "not in JWS Compact Serialization format",
+            DecodeError::InvalidSignature => "signature validation failed",
         }
     }
 }
 
 impl FromError<base64::FromBase64Error> for DecodeError {
-    fn from_error(_: base64::FromBase64Error) -> DecodeError { Malformed }
+    fn from_error(_: base64::FromBase64Error) -> DecodeError { DecodeError::Malformed }
 }
 
 impl FromError<json::BuilderError> for DecodeError {
-    fn from_error(_: json::BuilderError) -> DecodeError { Malformed }
+    fn from_error(_: json::BuilderError) -> DecodeError { DecodeError::Malformed }
 }
 
 macro_rules! try_option (
@@ -60,17 +60,17 @@ fn decode_generic(input: &str,
                   -> Result<Claims, DecodeError> {
     let parts: Vec<&str> = input.splitn(3, '.').collect();
     if parts.len() != 3 {
-        return Err(Malformed);
+        return Err(DecodeError::Malformed);
     }
     let sig_bytes = try!(parts[2].from_base64());
     let computed_sig = sign(parts[0].as_bytes(), parts[1].as_bytes());
     if !safe_cmp(&*sig_bytes, &*computed_sig) {
-        return Err(InvalidSignature);
+        return Err(DecodeError::InvalidSignature);
     }
     let payload_bytes = try!(parts[1].from_base64());
-    let payload_str = try_option!(str::from_utf8(&*payload_bytes), Malformed);
+    let payload_str = try_option!(str::from_utf8(&*payload_bytes), DecodeError::Malformed);
     let payload = try!(json::from_str(payload_str));
-    let claims = Claims { raw: try_option!(payload.as_object(), Malformed).clone() };
+    let claims = Claims { raw: try_option!(payload.as_object(), DecodeError::Malformed).clone() };
     Ok(claims)
 }
 
@@ -109,7 +109,7 @@ pub mod hs256 {
     mod test {
         use claims::Claims;
         use super::{encode, decode};
-        use jws::InvalidSignature;
+        use jws::DecodeError;
 
         // header:  {"alg":"HS256","typ":"JWT"}
         // payload: {"com.example.my":"value","sub":"urn:someone"}
@@ -145,7 +145,7 @@ pub mod hs256 {
         fn test_signature() {
             assert!(match decode(INVALID_TOKEN, b"secret") {
                 Ok(_) => false,
-                Err(err) => err == InvalidSignature,
+                Err(err) => err == DecodeError::InvalidSignature,
             });
         }
 
