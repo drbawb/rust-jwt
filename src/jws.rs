@@ -88,7 +88,7 @@ pub mod hs256 {
     /// Encode a set of claims and sign with HMAC-SHA256.
     pub fn encode(claims: &Claims, key: &[u8]) -> String {
         encode_generic(claims, HEADER.to_string(), |input| {
-            let mut hmac = crypto::hmac::HMAC(crypto::hash::SHA256, key);
+            let mut hmac = crypto::hmac::HMAC(crypto::hash::HashType::SHA256, key);
             hmac.update(input);
             hmac.finalize()
         })
@@ -97,7 +97,7 @@ pub mod hs256 {
     /// Decode a JWT signed with HMAC-SHA256.
     pub fn decode(input: &str, key: &[u8]) -> Result<Claims, DecodeError> {
         decode_generic(input, |header64: &[u8], payload64: &[u8]| {
-            let mut hmac = crypto::hmac::HMAC(crypto::hash::SHA256, key);
+            let mut hmac = crypto::hmac::HMAC(crypto::hash::HashType::SHA256, key);
             hmac.update(header64);
             hmac.update(b".");
             hmac.update(payload64);

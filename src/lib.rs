@@ -18,7 +18,6 @@
 //! ```
 
 #![crate_name = "jwt"]
-#![license = "MIT"]
 #![experimental]
 
 #![feature(macro_rules)]

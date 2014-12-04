@@ -36,7 +36,7 @@ impl Claims {
     /// List of recipients the JWT is intended for.
     pub fn aud(&self) -> Option<Vec<&str>> {
         self.raw.get(&"aud".to_string()).and_then(|aud| {
-            aud.as_list().and_then(|aud| {
+            aud.as_array().and_then(|aud| {
                 let mut v: Vec<&str> = Vec::new();
                 for member in aud.iter() {
                     match member.as_string() {
