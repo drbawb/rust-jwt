@@ -1,4 +1,4 @@
-use std::collections::TreeMap;
+use std::collections::BTreeMap;
 
 use serialize::base64;
 use serialize::base64::ToBase64;
@@ -9,13 +9,13 @@ use serialize::json::ToJson;
 #[deriving(PartialEq, Show)]
 pub struct Claims {
     /// Raw JSON contents of the claims. This may become private.
-    pub raw: TreeMap<String, json::Json>,
+    pub raw: BTreeMap<String, json::Json>,
 }
 
 impl Claims {
     /// Create an empty claim set.
     pub fn new() -> Claims {
-        Claims { raw: TreeMap::new() }
+        Claims { raw: BTreeMap::new() }
     }
 
     /// Who issued the JWT.
