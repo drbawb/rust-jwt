@@ -6,9 +6,9 @@
 use std::str;
 use std::error::{Error, FromError};
 
-use serialize::base64;
-use serialize::base64::{ToBase64, FromBase64};
-use serialize::json;
+use rustc_serialize::base64;
+use rustc_serialize::base64::{ToBase64, FromBase64};
+use rustc_serialize::json;
 
 use claims::Claims;
 use util::safe_cmp;

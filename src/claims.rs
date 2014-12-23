@@ -1,10 +1,10 @@
 use std::borrow::{BorrowFrom, ToOwned};
 use std::collections::BTreeMap;
 
-use serialize::base64;
-use serialize::base64::ToBase64;
-use serialize::json;
-use serialize::json::ToJson;
+use rustc_serialize::base64;
+use rustc_serialize::base64::ToBase64;
+use rustc_serialize::json;
+use rustc_serialize::json::ToJson;
 
 /// A set of JWT claims.
 #[deriving(PartialEq, Show)]

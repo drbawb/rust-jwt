@@ -23,7 +23,7 @@
 #![feature(macro_rules)]
 
 extern crate time;
-extern crate serialize;
+extern crate "rustc-serialize" as rustc_serialize;
 extern crate openssl;
 
 pub use claims::Claims;
