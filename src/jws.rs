@@ -137,6 +137,7 @@ pub mod hs256 {
         fn test_decode() {
             let claims = decode(TEST_TOKEN, b"secret").unwrap();
             assert_eq!(2, claims.raw.len());
+			assert_eq!(Some("value"), claims.get("com.example.my").and_then(|v| v.as_string()));
             assert_eq!(Some("value"), claims.raw["com.example.my".to_string()].as_string());
             assert_eq!(Some("urn:someone"), claims.sub());
         }

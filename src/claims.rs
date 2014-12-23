@@ -1,3 +1,4 @@
+use std::borrow::{BorrowFrom, ToOwned};
 use std::collections::BTreeMap;
 
 use serialize::base64;
@@ -73,20 +74,20 @@ impl Claims {
     }
 
     /// Get the value of a claim.
-    pub fn get<K: StrAllocating>(&self, key: K) -> Option<&json::Json> {
-        self.raw.get(&key.into_string())
+    pub fn get<Sized? K: BorrowFrom<String>+Ord>(&self, key: &K) -> Option<&json::Json> {
+        self.raw.get(BorrowFrom::borrow_from(key))
     }
 
     /// Add a (potentially unregistered) claim. Note that this can lead
     /// to an invalid JWT if the semantics of the claim don't match the
     /// JWT specification.
-    pub fn insert_unsafe<K: StrAllocating, V: ToJson>(&mut self, key: K, value: V) {
-        self.raw.insert(key.into_string(), value.to_json());
+    pub fn insert_unsafe<V: ToJson>(&mut self, key: &str, value: V) {
+        self.raw.insert(key.to_owned(), value.to_json());
     }
 
     /// Remove a claim.
-    pub fn remove<K: StrAllocating>(&mut self, key: K) -> Option<json::Json> {
-        self.raw.remove(&key.into_string())
+    pub fn remove<Sized? K: BorrowFrom<String>+Ord>(&mut self, key: &K) -> Option<json::Json> {
+        self.raw.remove(BorrowFrom::borrow_from(key))
     }
 }
 
