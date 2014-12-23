@@ -53,7 +53,7 @@ macro_rules! try_option (
             None => return Err($err),
         }
     )
-)
+);
 
 fn decode_generic(input: &str,
                   sign: |header64: &[u8], payload64: &[u8]| -> Vec<u8>)
