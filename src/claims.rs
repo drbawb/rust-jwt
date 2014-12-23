@@ -97,7 +97,7 @@ macro_rules! maybe_insert(
             None => { },
         }
     );
-)
+);
 
 impl ToJson for Claims {
     fn to_json(&self) -> json::Json {
