@@ -68,7 +68,7 @@ fn decode_generic(input: &str,
         return Err(DecodeError::InvalidSignature);
     }
     let payload_bytes = try!(parts[1].from_base64());
-    let payload_str = try_option!(str::from_utf8(&*payload_bytes), DecodeError::Malformed);
+    let payload_str = try_option!(str::from_utf8(&*payload_bytes).ok(), DecodeError::Malformed);
     let payload = try!(json::from_str(payload_str));
     let claims = Claims { raw: try_option!(payload.as_object(), DecodeError::Malformed).clone() };
     Ok(claims)
