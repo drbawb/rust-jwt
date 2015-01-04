@@ -8,5 +8,5 @@ authors = ["David Stygstra <david.stygstra@gmail.com>"]
 log = "0.1"
 openssl = "0.2"
 regex = "0.1"
-rustc-serialize = "0.1"
+rustc-serialize = "0.2"
 time = "0.1"
