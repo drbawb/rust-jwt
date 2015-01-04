@@ -75,7 +75,7 @@ impl Claims {
 
     /// Get the value of a claim.
     pub fn get<Sized? K: BorrowFrom<String>+Ord>(&self, key: &K) -> Option<&json::Json> {
-        self.raw.get(BorrowFrom::borrow_from(key))
+        self.raw.get(key)
     }
 
     /// Add a (potentially unregistered) claim. Note that this can lead
@@ -87,7 +87,7 @@ impl Claims {
 
     /// Remove a claim.
     pub fn remove<Sized? K: BorrowFrom<String>+Ord>(&mut self, key: &K) -> Option<json::Json> {
-        self.raw.remove(BorrowFrom::borrow_from(key))
+        self.raw.remove(key)
     }
 }
 
