@@ -46,6 +46,10 @@ impl FromError<json::BuilderError> for DecodeError {
     fn from_error(_: json::BuilderError) -> DecodeError { DecodeError::Malformed }
 }
 
+impl FromError<str::Utf8Error> for DecodeError {
+    fn from_error(_: str::Utf8Error) -> DecodeError { DecodeError::Malformed }
+}
+
 macro_rules! try_option (
     ($expr:expr, $err:expr) => (
         match $expr {
@@ -68,7 +72,7 @@ fn decode_generic(input: &str,
         return Err(DecodeError::InvalidSignature);
     }
     let payload_bytes = try!(parts[1].from_base64());
-    let payload_str = try_option!(str::from_utf8(&*payload_bytes).ok(), DecodeError::Malformed);
+    let payload_str = try!(str::from_utf8(&*payload_bytes));
     let payload = try!(json::Json::from_str(payload_str));
     let claims = Claims { raw: try_option!(payload.as_object(), DecodeError::Malformed).clone() };
     Ok(claims)
