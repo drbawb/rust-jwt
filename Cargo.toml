@@ -4,10 +4,9 @@ name = "jwt"
 version = "0.0.1"
 authors = ["David Stygstra <david.stygstra@gmail.com>"]
 
-[dependencies.openssl]
-
-git = "https://github.com/sfackler/rust-openssl"
-
-[dependencies.time]
-
-git = "https://github.com/rust-lang/time"
+[dependencies]
+log = "0.1"
+openssl = "0.2"
+regex = "0.1"
+rustc-serialize = "0.1"
+time = "0.1"

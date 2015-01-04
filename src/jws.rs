@@ -6,9 +6,9 @@
 use std::str;
 use std::error::{Error, FromError};
 
-use serialize::base64;
-use serialize::base64::{ToBase64, FromBase64};
-use serialize::json;
+use rustc_serialize::base64;
+use rustc_serialize::base64::{ToBase64, FromBase64};
+use rustc_serialize::json;
 
 use claims::Claims;
 use util::safe_cmp;
@@ -53,7 +53,7 @@ macro_rules! try_option (
             None => return Err($err),
         }
     )
-)
+);
 
 fn decode_generic(input: &str,
                   sign: |header64: &[u8], payload64: &[u8]| -> Vec<u8>)
@@ -68,7 +68,7 @@ fn decode_generic(input: &str,
         return Err(DecodeError::InvalidSignature);
     }
     let payload_bytes = try!(parts[1].from_base64());
-    let payload_str = try_option!(str::from_utf8(&*payload_bytes), DecodeError::Malformed);
+    let payload_str = try_option!(str::from_utf8(&*payload_bytes).ok(), DecodeError::Malformed);
     let payload = try!(json::from_str(payload_str));
     let claims = Claims { raw: try_option!(payload.as_object(), DecodeError::Malformed).clone() };
     Ok(claims)
@@ -137,6 +137,7 @@ pub mod hs256 {
         fn test_decode() {
             let claims = decode(TEST_TOKEN, b"secret").unwrap();
             assert_eq!(2, claims.raw.len());
+			assert_eq!(Some("value"), claims.get("com.example.my").and_then(|v| v.as_string()));
             assert_eq!(Some("value"), claims.raw["com.example.my".to_string()].as_string());
             assert_eq!(Some("urn:someone"), claims.sub());
         }
