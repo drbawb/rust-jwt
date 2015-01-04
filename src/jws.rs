@@ -23,7 +23,7 @@ fn encode_generic(claims: &Claims, header: String, sign: |&[u8]| -> Vec<u8>) -> 
     res
 }
 
-#[deriving(Show, Eq, PartialEq)]
+#[derive(Show, Eq, PartialEq, Copy)]
 pub enum DecodeError {
     Malformed,
     InvalidSignature,

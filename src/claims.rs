@@ -7,7 +7,7 @@ use rustc_serialize::json;
 use rustc_serialize::json::ToJson;
 
 /// A set of JWT claims.
-#[deriving(PartialEq, Show)]
+#[derive(PartialEq, Show)]
 pub struct Claims {
     /// Raw JSON contents of the claims. This may become private.
     pub raw: BTreeMap<String, json::Json>,
