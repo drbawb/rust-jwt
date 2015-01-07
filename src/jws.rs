@@ -13,7 +13,7 @@ use rustc_serialize::json;
 use claims::Claims;
 use util::safe_cmp;
 
-fn encode_generic(claims: &Claims, header: String, sign: |&[u8]| -> Vec<u8>) -> String {
+fn encode_generic<F>(claims: &Claims, header: String, sign: F) -> String where F: Fn(&[u8]) -> Vec<u8> {
     let mut res = header;
     res.push('.');
     res.push_str(&*claims.to_base64(base64::URL_SAFE));
@@ -59,9 +59,8 @@ macro_rules! try_option (
     )
 );
 
-fn decode_generic(input: &str,
-                  sign: |header64: &[u8], payload64: &[u8]| -> Vec<u8>)
-                  -> Result<Claims, DecodeError> {
+fn decode_generic<F>(input: &str, sign: F) -> Result<Claims, DecodeError>
+                  where F: Fn(&[u8], &[u8]) -> Vec<u8> {
     let parts: Vec<&str> = input.splitn(3, '.').collect();
     if parts.len() != 3 {
         return Err(DecodeError::Malformed);
