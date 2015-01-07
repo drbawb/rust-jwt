@@ -74,7 +74,7 @@ impl Claims {
     }
 
     /// Get the value of a claim.
-    pub fn get<Sized? K: BorrowFrom<String>+Ord>(&self, key: &K) -> Option<&json::Json> {
+    pub fn get<K: ?Sized+BorrowFrom<String>+Ord>(&self, key: &K) -> Option<&json::Json> {
         self.raw.get(key)
     }
 
@@ -86,7 +86,7 @@ impl Claims {
     }
 
     /// Remove a claim.
-    pub fn remove<Sized? K: BorrowFrom<String>+Ord>(&mut self, key: &K) -> Option<json::Json> {
+    pub fn remove<K: ?Sized+BorrowFrom<String>+Ord>(&mut self, key: &K) -> Option<json::Json> {
         self.raw.remove(key)
     }
 }
