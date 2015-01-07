@@ -20,8 +20,6 @@
 #![crate_name = "jwt"]
 #![experimental]
 
-#![feature(macro_rules)]
-
 extern crate time;
 extern crate "rustc-serialize" as rustc_serialize;
 extern crate openssl;
