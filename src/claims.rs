@@ -21,7 +21,7 @@ impl Claims {
 
     /// Who issued the JWT.
     pub fn iss(&self) -> Option<&str> {
-        self.raw.get(&"iss".to_string()).and_then(|iss| {
+        self.raw.get("iss").and_then(|iss| {
             iss.as_string().and_then(|iss| Some(iss))
         })
     }
@@ -29,14 +29,14 @@ impl Claims {
     /// Subject of the JWT. Other claims are typically statements about
     /// the subject.
     pub fn sub(&self) -> Option<&str> {
-        self.raw.get(&"sub".to_string()).and_then(|sub| {
+        self.raw.get("sub").and_then(|sub| {
             sub.as_string().and_then(|sub| Some(sub))
         })
     }
 
     /// List of recipients the JWT is intended for.
     pub fn aud(&self) -> Option<Vec<&str>> {
-        self.raw.get(&"aud".to_string()).and_then(|aud| {
+        self.raw.get("aud").and_then(|aud| {
             aud.as_array().and_then(|aud| {
                 let mut v: Vec<&str> = Vec::new();
                 for member in aud.iter() {
@@ -52,23 +52,23 @@ impl Claims {
 
     /// Time after which the JWT is considered invalid (POSIX time).
     pub fn exp(&self) -> Option<f64> {
-        self.raw.get(&"exp".to_string()).and_then(|exp| exp.as_f64())
+        self.raw.get("exp").and_then(|exp| exp.as_f64())
     }
 
     /// Time before which the JWT is considered invalid (POSIX time).
     pub fn nbf(&self) -> Option<f64> {
-        self.raw.get(&"nbf".to_string()).and_then(|nbf| nbf.as_f64())
+        self.raw.get("nbf").and_then(|nbf| nbf.as_f64())
     }
 
     /// Time the JWT was issued (POSIX time).
     pub fn iat(&self) -> Option<f64> {
-        self.raw.get(&"iat".to_string()).and_then(|iat| iat.as_f64())
+        self.raw.get("iat").and_then(|iat| iat.as_f64())
     }
 
     /// This is a unique identifier that may be used to prevent replays
     /// (JWT ID).
     pub fn jti(&self) -> Option<&str> {
-        self.raw.get(&"jti".to_string()).and_then(|jti| {
+        self.raw.get("jti").and_then(|jti| {
             jti.as_string().and_then(|jti| Some(jti))
         })
     }

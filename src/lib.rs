@@ -3,6 +3,8 @@
 //! # Example
 //!
 //! ```rust
+//! #![allow(unstable)]
+//!
 //! extern crate jwt;
 //! use jwt::Claims;
 //! use jwt::jws::hs256::{encode, decode};
@@ -33,7 +35,7 @@ mod util {
     pub fn safe_cmp(a: &[u8], b: &[u8]) -> bool {
         if a.len() != b.len() { return false; }
         let mut r: u8 = 0;
-        for i in range(0, a.len()) {
+        for i in (0..a.len()) {
             r |= a[i] ^ b[i];
         }
         r == 0
