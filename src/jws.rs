@@ -5,6 +5,8 @@
 
 use std::str;
 use std::error::{Error, FromError};
+use std::fmt::{Display, Formatter};
+use std::fmt::Error as FmtError;
 
 use rustc_serialize::base64;
 use rustc_serialize::base64::{ToBase64, FromBase64};
@@ -23,10 +25,16 @@ fn encode_generic<F>(claims: &Claims, header: String, sign: F) -> String where F
     res
 }
 
-#[derive(Show, Eq, PartialEq, Copy)]
+#[derive(Debug, Eq, PartialEq, Copy)]
 pub enum DecodeError {
     Malformed,
     InvalidSignature,
+}
+
+impl Display for DecodeError {
+    fn fmt(&self, f: &mut Formatter) -> Result<(), FmtError> {
+        Display::fmt(&format!("jwt decode error: {:?}", self)[], f)
+    }
 }
 
 impl Error for DecodeError {
